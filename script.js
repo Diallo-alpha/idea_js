@@ -2,6 +2,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const ideaForm = document.getElementById("ideaForm");
     const ideasTableBody = document.getElementById("ideasTableBody");
     const messageDiv = document.getElementById("message");
+    const approvalMessage = document.getElementById("approvalMessage");
+    const desapprovalMessage = document.getElementById("desapprovalMessage");
+    const mainContent = document.getElementById("mainContent");
 
     // Fonction pour afficher un message
     function showMessage(message, type) {
@@ -31,12 +34,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Fonction pour approuver une idée
     window.approveIdea = function(index) {
-        showMessage("Idée approuvée avec succès", "success");
+        const ideas = JSON.parse(localStorage.getItem("ideas")) || [];
+        if (ideas[index]) {
+            ideas[index].approved = true;
+            localStorage.setItem("ideas", JSON.stringify(ideas));
+            showMessage("Idée approuvée avec succès", "success");
+            renderIdeas();
+
+            // Affiche le message d'approbation et cache le reste du contenu
+            approvalMessage.style.display = "block";
+
+            setTimeout(() => {
+                approvalMessage.style.display = "none";
+            }, 2000);
+        }
     }
 
     // Fonction pour désapprouver une idée
     window.disapproveIdea = function(index) {
-        showMessage("Idée désapprouvée", "warning");
+        const ideas = JSON.parse(localStorage.getItem("ideas")) || [];
+        if (ideas[index]) {
+            ideas[index].approved = false;
+            localStorage.setItem("ideas", JSON.stringify(ideas));
+            showMessage("Idée désapprouvée", "warning");
+            renderIdeas();
+            //
+            desapprovalMessage.style.display = "block";
+
+            setTimeout(() => {
+                desapprovalMessage.style.display = "none";
+            }, 2000);
+        }
     }
 
     // Fonction pour rendre les idées dans le tableau
@@ -49,6 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>${idea.title}</td>
                 <td>${idea.description}</td>
                 <td>${idea.categorie}</td>
+                <td>${idea.approved ? 'Approuvée' : 'Non approuvée'}</td>
                 <td>
                     <button class="btn btn-success btn-sm" onclick="approveIdea(${index})">Approuver</button>
                     <button class="btn btn-warning btn-sm" onclick="disapproveIdea(${index})">Désapprouver</button>
@@ -80,7 +109,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const newIdea = {
             title,
             categorie,
-            description
+            description,
+            approved: false
         };
 
         addIdea(newIdea);
