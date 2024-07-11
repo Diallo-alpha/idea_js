@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Fonction pour approuver une idée
     window.approveIdea = function(index) {
-        showMessage("Idée approuvée", "success");
+        showMessage("Idée approuvée avec succès", "success");
     }
 
     // Fonction pour désapprouver une idée
@@ -66,6 +66,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const title = document.getElementById("title").value.trim();
         const categorie = document.getElementById("categorie").value;
         const description = document.getElementById("description").value.trim();
+
+        if (title.length < 5) {
+            showMessage("Le libellé doit contenir au moins 5 caractères", "danger");
+            return;
+        }
 
         if (title === "" || description === "") {
             showMessage("Tous les champs sont requis", "danger");
