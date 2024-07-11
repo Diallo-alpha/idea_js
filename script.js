@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
             messageDiv.textContent = "";
             messageDiv.className = "";
-        }, 3000);
+        }, 2000);
     }
 
     // Fonction pour ajouter une idée à la liste et au Local Storage
@@ -22,20 +22,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Fonction pour supprimer une idée du Local Storage
-    window.deleteIdea = function(index) {  // Changer en window.deleteIdea pour le rendre accessible globalement
+    window.deleteIdea = function(index) {
         const ideas = JSON.parse(localStorage.getItem("ideas")) || [];
         ideas.splice(index, 1);
         localStorage.setItem("ideas", JSON.stringify(ideas));
         renderIdeas();
     }
 
-    // Fonction pour approuver une idée 
-    window.approveIdea = function(index) {  // Changer en window.approveIdea pour le rendre accessible globalement
+    // Fonction pour approuver une idée
+    window.approveIdea = function(index) {
         showMessage("Idée approuvée", "success");
     }
 
-    // Fonction pour désapprouver une idée 
-    window.disapproveIdea = function(index) {  // Changer en window.disapproveIdea pour le rendre accessible globalement
+    // Fonction pour désapprouver une idée
+    window.disapproveIdea = function(index) {
         showMessage("Idée désapprouvée", "warning");
     }
 
