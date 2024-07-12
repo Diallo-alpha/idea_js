@@ -13,9 +13,7 @@
         <div class="container my-4">
             <div class="row">
                 <div class="col-md-6">
-                    <img src="boxidea.jpg" alt="Descriptive Image" class="img-fluid">
-                </div>
-                <div class="col-md-6">
+                    <fieldset>   <legend> <h2>Formulaire pour ajouter une idée</h2></legend>
                     <form id="ideaForm" class="mb-4">
                         <div class="mb-3">
                             <label for="title" class="form-label">Libellé :</label>
@@ -34,34 +32,25 @@
                             <label for="description" class="form-label">Description :</label>
                             <textarea id="description" name="description" class="form-control" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Envoyer</button>
+                        <button type="submit" class="btn btn-primary">Ajouter</button>
                     </form>
+                </fieldset>
                     <div id="message"></div>
+                </div>
+                <div class="col-md-6">
+                    <img src="boxidea.jpg" alt="Descriptive Image" class="img-fluid">
                 </div>
             </div>
         </div>
         <section class="list-idee">
             <h2 class="mt-5">Liste des Idées</h2>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Libellé</th>
-                        <th>Description</th>
-                        <th>Catégorie</th>
-                        <th>statut</th>
-                        <th>Action</th>
-                        
-                    </tr>
-                </thead>
-                <tbody id="ideasTableBody">
-                </tbody>
-            </table>
+            <div class="container-l">
+                <div class="row" id="ideasCards">
+                    <!-- Les cartes des idées seront ajoutées ici par JavaScript -->
+                </div>
+            </div>
         </section>
-        <div id="approvalMessage" style="display: none;">Idée approuvée avec succès !</div>
-        <div id="desapprovalMessage" style="display: none;">Idée approuvée avec succès !</div>
-        <div id="mainContent">
-
-        </div>
+        <div id="mainContent"></div>
     </main>
     <script src="script.js"></script>
 </body>

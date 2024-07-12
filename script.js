@@ -1,10 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const ideaForm = document.getElementById("ideaForm");
-    const ideasTableBody = document.getElementById("ideasTableBody");
+    const ideasCards = document.getElementById("ideasCards");
     const messageDiv = document.getElementById("message");
-    const approvalMessage = document.getElementById("approvalMessage");
-    const desapprovalMessage = document.getElementById("desapprovalMessage");
-    const mainContent = document.getElementById("mainContent");
 
     // Fonction pour afficher un message
     function showMessage(message, type) {
@@ -38,15 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (ideas[index]) {
             ideas[index].approved = true;
             localStorage.setItem("ideas", JSON.stringify(ideas));
-            showMessage("Idée approuvée avec succès", "success");
             renderIdeas();
-
-            // Affiche le message d'approbation et cache le reste du contenu
-            approvalMessage.style.display = "block";
-
-            setTimeout(() => {
-                approvalMessage.style.display = "none";
-            }, 2000);
         }
     }
 
@@ -56,35 +45,36 @@ document.addEventListener("DOMContentLoaded", () => {
         if (ideas[index]) {
             ideas[index].approved = false;
             localStorage.setItem("ideas", JSON.stringify(ideas));
-            showMessage("Idée désapprouvée", "warning");
             renderIdeas();
-            //
-            desapprovalMessage.style.display = "block";
-
-            setTimeout(() => {
-                desapprovalMessage.style.display = "none";
-            }, 2000);
         }
     }
 
     // Fonction pour rendre les idées dans le tableau
     function renderIdeas() {
         const ideas = JSON.parse(localStorage.getItem("ideas")) || [];
-        ideasTableBody.innerHTML = "";
+        ideasCards.innerHTML = "";
         ideas.forEach((idea, index) => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${idea.title}</td>
-                <td>${idea.description}</td>
-                <td>${idea.categorie}</td>
-                <td>${idea.approved ? 'Approuvée' : 'Non approuvée'}</td>
-                <td>
-                    <button class="btn btn-success btn-sm" onclick="approveIdea(${index})">Approuver</button>
-                    <button class="btn btn-warning btn-sm" onclick="disapproveIdea(${index})">Désapprouver</button>
-                    <button class="btn btn-danger btn-sm" onclick="deleteIdea(${index})">Supprimer</button>
-                </td>
+            const card = document.createElement("div");
+            card.className = `col-md-3 idee`;
+
+            card.innerHTML = `
+                <div class="card h-100 card ${idea.approved ? 'approved' : 'disapproved'}">
+                    <div class="card-body">
+                        <h5 class="card-title">${idea.title}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">${idea.categorie}</h6>
+                        <p class="card-text">${idea.description}</p>
+                        <button class="btn btn-success btn-sm" onclick="approveIdea(${index})">Approuver</button>
+                        <button class="btn btn-warning btn-sm" onclick="disapproveIdea(${index})">Désapprouver</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteIdea(${index})">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
             `;
-            ideasTableBody.appendChild(row);
+            ideasCards.appendChild(card);
         });
     }
 
